@@ -19,6 +19,8 @@ public class Main {
                 switch (choice){
                     case 1:
                         System.out.print("Enter the number of array : ");
+                        System.out.print("Enter the number of array : ");
+
                         n = scanner.nextInt();
                         BubbleSort bbs = new BubbleSort(n);
 
