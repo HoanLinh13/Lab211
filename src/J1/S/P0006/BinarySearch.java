@@ -1,21 +1,13 @@
 package J1.S.P0006;
 
+import Model.EnterArray;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class BinarySearch {
-    public void input(ArrayList<Integer> numArray) {
-        Scanner scaner = new Scanner(System.in);
-        System.out.print ("Enter the number of array : ");
-        int n = scaner.nextInt();
-        int num;
+public class BinarySearch extends EnterArray {
+    protected ArrayList<Integer> data;
 
-        for (int i = 0; i < n; i++) {
-            System.out.print("Enter array " + i + ": ");
-            System.out.println();
-            num = scaner.nextInt();
-            numArray.add(num);
-        }
+    public BinarySearch(ArrayList<Integer> data) {
+        this.data = data;
     }
 
     public void output(ArrayList<Integer> a) {
