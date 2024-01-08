@@ -9,7 +9,6 @@ public class EnterArray {
     public EnterArray() {
         this.scanner = new Scanner(System.in);
     }
-
     public ArrayList<Integer> getInputArray() {
         ArrayList<Integer> inputArray = new ArrayList<>();
 
