@@ -16,6 +16,10 @@ public class UserInterface {
         int searchValue = scanner.nextInt();
         System.out.print("Sorted array: ");
         bs.displayArray();
-        System.out.println("Found " + searchValue + " at index " + bs.binarySearch(searchValue));
+        if (bs.binarySearch(searchValue) == -1)
+            System.out.println("Element not found");
+        else
+            System.out.println("Found " + searchValue + " at index " + bs.binarySearch(searchValue));
+
     }
 }
