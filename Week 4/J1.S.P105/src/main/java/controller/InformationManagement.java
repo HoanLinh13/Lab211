@@ -27,7 +27,7 @@ public class InformationManagement {
             }
         }
 
-        sc.nextLine(); // Clear buffer
+        sc.nextLine(); 
         while (true) {
             System.out.print("Contract type (Long/Short): ");
             t.setContractType(sc.next());
@@ -85,7 +85,7 @@ public class InformationManagement {
             System.out.println("Data input is invalid");
         }
 
-        sc.nextLine(); // Clear buffer
+        sc.nextLine(); 
         while (true) {
             System.out.print("Fullname: ");
             p.setFullName(sc.nextLine());
@@ -113,7 +113,7 @@ public class InformationManagement {
             }
         }
 
-        sc.nextLine(); // Clear buffer
+        sc.nextLine();
         while (true) {
             System.out.print("Major (max 30 characters): ");
             p.setMajor(sc.nextLine());
