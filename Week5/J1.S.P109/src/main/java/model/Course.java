@@ -10,6 +10,7 @@ public class Course {
         this.courseID = "";
         this.courseName = "";
         this.credits = 0;
+        Course course = new Course();
     }
 
     public void inputAll(String courseID, String courseName, int credits) {

@@ -61,6 +61,7 @@ public class UserInterface {
                         } else if (type.equals("F")) {
                             System.out.println("Create new offline offCourse");
                             OfflineCourse offCourse = new OfflineCourse();
+
                             System.out.print("Course ID: ");
                             String courseID = scanner.nextLine();
                             System.out.print("Course Name: ");

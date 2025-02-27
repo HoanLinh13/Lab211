@@ -12,14 +12,13 @@ public class CourseManagement {
 
 
     public void addCourse(Course course) {
-        String courseID = course.getCourseID();
+     String courseId = course.getCourseID();
 
-        if (!courseID.isEmpty() && !courseMap.containsKey(courseID)) {
-            courseMap.put(courseID, course);
-            System.out.println("Course added successfully.");
-        } else {
-            System.err.println("Course ID already exists or is empty.");
-        }
+     if(courseId.isEmpty() && !courseMap.containsKey(courseId)) {
+         courseMap.put(courseId, course);
+     }else {
+         System.out.println("Course already exists!");
+     }
     }
 
     public Course findCourseById(String courseID) {

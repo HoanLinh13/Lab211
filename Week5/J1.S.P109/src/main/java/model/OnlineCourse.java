@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Scanner;
-import java.util.Set;
 
 public class OnlineCourse extends Course {
     private String platform;
@@ -13,6 +12,7 @@ public class OnlineCourse extends Course {
         this.platform = "";
         this.instructors = "";
         this.note = "";
+
     }
 
     public void inputAll(String courseID, String courseName, String instructor, int credits, String platform, String instructors, String note){
