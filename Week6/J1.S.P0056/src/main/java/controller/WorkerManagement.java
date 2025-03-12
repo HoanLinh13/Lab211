@@ -28,14 +28,15 @@ public class WorkerManagement {
     }
 
     public void displaySalaryHistory(){
-
         if (salaryHistories.isEmpty()) {
             System.err.println("No salary adjustment history available.");
             return;
         }
 
-        System.out.println("----------- Display Information Salary -----------");
-        System.out.println("Code" + "\t" + "Name" + "\t" + "Age" + "\t" + "Salary" + "\t" + "Status" + "Date" + "\t");
+        System.out.println("--------------- Display Information Salary ---------------");
+        System.out.printf("%-10s %-15s %-5s %-10s %-10s %-15s%n",
+                "Code", "Name", "Age", "Salary", "Status", "Date");
+        System.out.println("----------------------------------------------------------");
 
         for (SalaryHistory history : salaryHistories) {
             System.out.println(history);

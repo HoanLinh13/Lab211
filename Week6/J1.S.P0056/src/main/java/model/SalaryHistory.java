@@ -33,7 +33,8 @@ public class SalaryHistory {
 
     @Override
     public String toString() {
-        return  worker  + "\t\t" + adjustedSalary + "\t\t" + status + "\t\t" + date;
+        return String.format("%-10s %-15s %-5d %-10.2f %-10s %-15s",
+                worker.getCode(), worker.getName(), worker.getAge(), adjustedSalary, status, date);
 
     }
 }

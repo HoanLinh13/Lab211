@@ -88,7 +88,6 @@ public class UserInterface {
         do {
             System.out.print("Enter Code: ");
             codeSL = scanner.nextLine();
-            scanner.nextLine();
         } while( !validate.isCodeExist(codeSL, wm.getWorkerList()) );
 
         double slChange;

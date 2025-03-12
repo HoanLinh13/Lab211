@@ -57,6 +57,7 @@ public class Worker {
 
     @Override
     public String toString() {
-        return code + "\t\t" + name + "\t\t" + age ;
+        return String.format("%-10s %-15s %-5d", code, name, age);
     }
+
 }
