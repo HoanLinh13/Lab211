@@ -1,8 +1,7 @@
 package model;
 
-import java.util.Objects;
-
 public class Fruit {
+    private  int idCounter = 1;
     private int fruitId;
     private String fruitName;
     private double price;
@@ -10,7 +9,7 @@ public class Fruit {
     private String origin;
 
     public Fruit(String fruitName, double price, int quantity, String origin) {
-        this.fruitId = fruitId;
+        this.fruitId = idCounter++ ;  // ID tăng tự động
         this.fruitName = fruitName;
         this.price = price;
         this.quantity = quantity;

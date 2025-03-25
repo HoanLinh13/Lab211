@@ -10,100 +10,99 @@ import java.util.List;
 
 public class FruitShopManagement {
     private List<Fruit> fruitList;
-    private Hashtable<Order, List<Fruit>> ordersCart = new Hashtable<>(); // Danh sách đơn hàng
-    private int countID = 0;
+    private Hashtable<String, Order> ordersCart;
 
     public FruitShopManagement() {
-        fruitList = new ArrayList<Fruit>();
+        fruitList = new ArrayList<>();
+        ordersCart = new Hashtable<>();
     }
 
     public void addFruit(Fruit fruit) {
-        fruit.setFruitId(++countID);
         fruitList.add(fruit);
     }
 
     public void displayFruits() {
         if (fruitList.isEmpty()) {
             System.out.println("There is currently no fruit to buy.");
+            return;
         }
 
         System.out.println("List of Fruit:");
         System.out.printf("%-5s %-15s %-10s %-15s %-15s %n", "Item", "Fruit Name", "Quantity", "Origin", "Price");
+
+        int index = 1;
         for (Fruit fruit : fruitList) {
-            System.out.println(fruit);
+            System.out.printf("%-5d %-15s %-10d %-15s $%-14.2f%n",
+                    index++, fruit.getFruitName(), fruit.getQuantity(), fruit.getOrigin(), fruit.getPrice());
         }
     }
-
 
     public boolean addToShoppingCart(int index, int quantity, List<Fruit> cart) {
-        Fruit selectedFruit = fruitList.get(index - 1); // Lấy trái cây theo vị trí trong danh sách
-
-        System.out.println("You selected : " + selectedFruit.getFruitName());
-        // kiểm tra số lượng item có đủ kh
-        if (selectedFruit.getQuantity() >= quantity) {
-            cart.add(new Fruit(selectedFruit.getFruitName(), selectedFruit.getPrice(), quantity, selectedFruit.getOrigin()));
-            selectedFruit.setQuantity(selectedFruit.getQuantity() - quantity);
-
-            return true;
-        } else {
-            System.err.println("Not enough items in the current warehouse!");
-
+        if (index < 1 || index > fruitList.size()) {
+            System.err.println("Invalid fruit selection!");
             return false;
         }
 
-    }
+        // Lấy trái cây theo vị trí trong danh sách
+        Fruit selectedFruit = fruitList.get(index - 1);
 
-    public boolean placeOrder(String customerName, int quantity, List<Fruit> cart) {
-        if (!cart.isEmpty()) {
-            Order newOrder = new Order(customerName);
-            ordersCart.put(newOrder, new ArrayList<>(cart)); // Lưu danh sách sản phẩm vào đơn hàng
+        // Kiểm tra số lượng tồn kho
+        if (selectedFruit.getQuantity() < quantity) {
+            System.err.println("Not enough items in stock!");
+            return false;
+        }
 
-            System.out.println("--- Your Order List ---");
-            System.out.printf("%-15s %-10s %-7s %-7s %n", "Product", "Quantity", "Price", "Amount");
+        // Tạo bản sao của trái cây với số lượng đã mua
+        Fruit cartItem = new Fruit(
+                selectedFruit.getFruitName(),
+                selectedFruit.getPrice(),
+                quantity, // Số lượng MUA, không phải số lượng tồn kho
+                selectedFruit.getOrigin()
+        );
 
-            double total = 0;
-            for (Fruit fruit : cart) {
-                double amount = fruit.getPrice() * fruit.getQuantity();
-                total += amount;
-                System.out.printf("%-15s %-10d $%-7.2f $%-7.2f %n", fruit.getFruitName(), quantity, fruit.getPrice(), amount);
+        // Kiểm tra xem trái cây đã có trong giỏ chưa
+        boolean found = false;
+        for (Fruit item : cart) {
+            if (item.getFruitName().equalsIgnoreCase(cartItem.getFruitName())
+                    && item.getOrigin().equalsIgnoreCase(cartItem.getOrigin())) {
+                item.setQuantity(item.getQuantity() + cartItem.getQuantity());
+                found = true;
+                break;
             }
-            System.out.printf("Total: $%.2f\n", total);
-
-            cart.clear();
-            System.out.println("Your order has been saved!");
-
-            return true;
-        } else {
-            System.err.println("Cart is empty! Cannot place an order.");
-
-            return false;
         }
+
+        if (!found) {
+            cart.add(cartItem);
+        }
+
+        // Cập nhật số lượng tồn kho
+        selectedFruit.setQuantity(selectedFruit.getQuantity() - quantity);
+        return true;
     }
 
-    public void viewOrders() {
-        if (ordersCart.isEmpty()) {
-            System.out.println("No orders found!");
+    public void placeOrder(String customerName, List<Fruit> cart) {
+        if (cart.isEmpty()) {
+            System.err.println("Cart is empty! Cannot place order.");
             return;
         }
 
-        for (Order order : ordersCart.keySet()) {
-            System.out.println("Customer: " + order.getCustomerName());
-            System.out.printf("%-15s %-10s %-7s %-7s %n", "Product", "Quantity", "Price", "Amount");
+        Order newOrder = new Order(customerName);
+        for (Fruit item : cart) {
+            newOrder.addItem(item); // Thêm bản sao từ giỏ hàng
+        }
 
-            List<Fruit> cart = ordersCart.get(order); // ✅ Lấy đúng danh sách
-            if (cart == null || cart.isEmpty()) {
-                System.out.println("No items found for this order.");
-                continue;
-            }
+        ordersCart.put(customerName, newOrder);
+        cart.clear(); // Xóa giỏ hàng sau khi đặt
 
-            double total = 0;
-            int index = 1;
-            for (Fruit fruit : cart) {
-                double amount = fruit.getQuantity() * fruit.getPrice();
-                total += amount;
-                System.out.printf("%d. %-15s %-10d $%-7.2f $%-7.2f %n", index++, fruit.getFruitName(), fruit.getQuantity(), fruit.getPrice(), amount);
-            }
-            System.out.printf("Total: $%.2f\n\n", total);
+        System.out.println("--- Your Order ---");
+        System.out.println(newOrder);
+        System.out.println("Order saved successfully!");
+    }
+
+
+    public void viewOrders() {
+        for (Order order : ordersCart.values()) {
+            System.out.println(order);
         }
     }
 

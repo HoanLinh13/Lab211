@@ -13,7 +13,14 @@ public class Order {
     }
 
     public void addItem(Fruit fruit) {
-        items.add(fruit);
+        // Tạo bản sao để không ảnh hưởng đến trái cây gốc
+        Fruit copy = new Fruit(
+                fruit.getFruitName(),
+                fruit.getPrice(),
+                fruit.getQuantity(), // Số lượng ĐÃ MUA
+                fruit.getOrigin()
+        );
+        items.add(copy);
     }
 
     public String getCustomerName() {
@@ -24,35 +31,32 @@ public class Order {
         return items;
     }
 
+
+    // Hiển thị đơn hàng
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Customer: ").append(customerName).append("\n");
-        sb.append(String.format("%-15s %-10s %-7s %-7s%n", "Product", "Quantity", "Price", "Amount"));
+        double total = 0.0;
 
-        double total = 0;
+        sb.append("Customer: ").append(customerName).append("\n");
+        sb.append(String.format("%-15s %-10s %-10s %-10s%n",
+                "Product", "Quantity", "Price", "Amount"));
+
         int index = 1;
         for (Fruit fruit : items) {
             double amount = fruit.getQuantity() * fruit.getPrice();
             total += amount;
-            sb.append(String.format("%d. %-15s %-10d $%-7.2f $%-7.2f%n",
-                    index++, fruit.getFruitName(), fruit.getQuantity(), fruit.getPrice(), amount));
+
+            sb.append(String.format("%d. %-13s %-10d $%-9.2f $%-9.2f%n",
+                    index++,
+                    fruit.getFruitName(),
+                    fruit.getQuantity(), // Số lượng ĐÃ MUA
+                    fruit.getPrice(),
+                    amount
+            ));
         }
+
         sb.append(String.format("Total: $%.2f%n", total));
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass())
-            return false;
-        Order order = (Order) obj;
-        return customerName.equals(order.customerName);
-    }
-
-    @Override
-    public int hashCode() {
-        return customerName.hashCode();
     }
 }

@@ -6,17 +6,17 @@ import utility.CheckValidate;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Scanner;
 
 public class UserInterface {
     Scanner scanner = new Scanner(System.in);
     CheckValidate validate = new CheckValidate();
-    List<Fruit> cartTemp = new ArrayList<>();  // Giỏ hàng tạm của khách hàng
     FruitShopManagement fsManagement = new FruitShopManagement();
 
-    public UserInterface(FruitShopManagement fsManagement) {
-        this.fsManagement = fsManagement;
-    }
+//    public UserInterface(FruitShopManagement fsManagement) {
+//        this.fsManagement = fsManagement;
+//    }
 
     private int menu(){
         System.out.println("\n=== FRUIT SHOP SYSTEM ===");
@@ -86,38 +86,27 @@ public class UserInterface {
 
                     break;
                 case 3 :
-                    while (true) {
-                        int choice;
-                        do {
-                            fsManagement.displayFruits();
-                            System.out.print("Select the product (0 to exit): ");
-                            choice = scanner.nextInt();
-                            scanner.nextLine();
+                    List<Fruit> cart = new ArrayList<>();
+                    boolean shopping = true;
+                    while (shopping) {
+                        fsManagement.displayFruits();
+                        System.out.print("Select fruit ID to buy (0 to exit): ");
+                        int choice = scanner.nextInt();
 
-                            if (choice == 0)
-                                return;
-
-                            if (validate.checkIndex(choice, fsManagement.getFruitList()))
-                                break;
-                        } while (true);
-
-
-                        System.out.print("Please enter quantity: ");
-                        int quantity = scanner.nextInt();
-                        scanner.nextLine();
-
-                        if (fsManagement.addToShoppingCart(choice,quantity, cartTemp)){
-                            if (!cartTemp.isEmpty()) {
-                                System.out.print("Enter your name to complete the order: ");
-                                String customerName = scanner.nextLine();
-                                fsManagement.placeOrder(customerName, quantity, cartTemp);
-                            }
-
-                            System.out.print("Continue to shopping? (Y/N): ");
-                            String type = scanner.nextLine();
-                            if (type.equalsIgnoreCase("N"))
-                                break;
+                        if (choice == 0){
+                            shopping = false;
                         }
+
+                        System.out.print("Enter quantity: ");
+                        int quantity = scanner.nextInt();
+
+                        if (fsManagement.addToShoppingCart(choice, quantity, cart)) {
+                            System.out.print("Enter your name: ");
+                            scanner.nextLine();
+                            String customerName = scanner.nextLine();
+                            fsManagement.placeOrder(customerName,cart);
+                        }
+                        break;
                     }
 
                     break;
